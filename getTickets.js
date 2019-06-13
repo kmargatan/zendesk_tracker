@@ -32,7 +32,7 @@ function getTickets(sheetURL, timeNow, OPid, Tid, audit) {
   var auditHeader = ['Assignee', 'Ticket #', 'Status', 'Priority', 'Customer', 'Age', 'Last Response'];
   var highAged = [[auditHeader],[auditHeader],[auditHeader]];
 
-  var maxTicket = 0; var maxTicketLoc = []; var responseCountTotal = 0;
+  var maxTicket = 0; var maxTicketLoc = []; var responseCountTotal = 0; var groupCt = 0;
 
   for (var i1=0; i1<summary.length-1; i1++) {
     format[i1]   = ["","","","",format[i1][4],"","","","","","","",""];
@@ -42,7 +42,7 @@ function getTickets(sheetURL, timeNow, OPid, Tid, audit) {
     //PARSING TOTAL, OPEN, PENDING, RESPONSE, AGED30
     i2 = 0;
     while (i2 < OP.rows.length) {
-      if (summary[i1][2] == OP.rows[i2].assignee_id) {
+      if ((summary[i1][2] == OP.rows[i2].assignee_id) && (groups[groupCt] == OP.rows[i2].group_id)) {
         parse = OP.rows[i2];
         var status = parse.ticket.status;
         var priority = parse.ticket.priority;
@@ -126,7 +126,7 @@ function getTickets(sheetURL, timeNow, OPid, Tid, audit) {
     //PARSING SOLVED & TTR
     i2 = 0;
     while (i2 < T.rows.length) {
-      if ((summary[i1][2] == T.rows[i2].assignee_id) && (new Date(T.rows[i2].solved) >= weekStart)) {
+      if ((summary[i1][2] == T.rows[i2].assignee_id) && (new Date(T.rows[i2].solved) >= weekStart) && (groups[groupCt] == T.rows[i2].group_id)) {
         parse = T.rows[i2]; //Logger.log("Ticket ID: "+parse.ticket.id+" for "+parse.assignee_id);
 
         if (summary[i1][9] == 0) {
@@ -180,6 +180,7 @@ function getTickets(sheetURL, timeNow, OPid, Tid, audit) {
 
       maxTicket = 0;
       maxTicketLoc = [];
+      groupCt++;
     }
 
     //FORMATTING RESPONSE
