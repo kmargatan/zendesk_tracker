@@ -115,5 +115,8 @@ function initSheet() {
     .onOpen()
     .create();
   
+  DriveApp.getFileById(master.getId())
+    .setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+  
   getUsers();
 }
