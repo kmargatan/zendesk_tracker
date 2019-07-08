@@ -1,3 +1,13 @@
+//DEPLOYMENTS INSTRUCTIONS
+//
+// 1. Open the menu "Resources > Libraries..."
+// 2. Paste "M35NCwg-AKxA72KdijLKHEmpjQGgMwfSZ" under Add a Library and select "Add"
+// 3. Select Version 1 and set the Identifier to "zdtrack" and set Development Mode to "On"
+// 4. Complete the USER INPUT piece below
+// 5. Run function "initSheet"
+//
+//END DEPLOYMENTS INSTRUCTIONS
+
 //USER INPUT
 var sheetURL = "";
 var groups = [];
