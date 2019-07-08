@@ -105,5 +105,15 @@ function initSheet() {
     master.getSheetByName("OOO").hideColumns(2,3);
   }
   
+  ScriptApp.newTrigger("getTime")
+    .timeBased()
+    .everyMinutes(5)
+    .create();
+  
+  ScriptApp.newTrigger("onOpen")
+    .forSpreadsheet(master)
+    .onOpen()
+    .create();
+  
   getUsers();
 }
