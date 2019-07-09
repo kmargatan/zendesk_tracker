@@ -1,6 +1,28 @@
-function getAPIdata(apiURL,auth) {
+function getAPIdata(method, apiURL, auth, body) {
   try {
-    var response = UrlFetchApp.fetch(apiURL, { method: "get", headers: {"Authorization": auth} });
+    if (method == "get") {
+      var response = UrlFetchApp.fetch(apiURL,
+                                       {
+                                         "method": method,
+                                         "headers":
+                                         {
+                                           "Authorization": auth
+                                         }
+                                       }
+                                      );
+    } else if (method == "post") {
+      var response = UrlFetchApp.fetch(apiURL,
+                                       {
+                                         "method": method,
+                                         "headers":
+                                         {
+                                           "Authorization": auth,
+                                           "Content-Type": "application/json"
+                                         },
+                                         "payload": JSON.stringify(body)
+                                       }
+                                      );
+    }
   }
 
   catch(err) {
