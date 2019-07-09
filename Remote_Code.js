@@ -15,6 +15,7 @@ var OPid   = ;
 var Tid    = ;
 //END USER INPUT
 
+var sheetURL = SpreadsheetApp.getActive().getUrl();
 var master = SpreadsheetApp.openByUrl(sheetURL);
 var main = master.getSheetByName('Main');
 
@@ -77,13 +78,10 @@ function onEdit(e) {
 
 function sandBox() {
   Logger.log(master.getSheetByName('Attn').getRange('B26').getValue());
-
 }
 
 function preInit() {
-  var groupIDs = zdtrack.preInitSheet(groups);
-
-  Logger.log(groupIDs);
+  var groupIDs = zdtrack.preInitSheet(groupNames);
 }
 
 function init() {
@@ -98,9 +96,6 @@ function init() {
     .forSpreadsheet(master)
     .onOpen()
     .create();
-
-  DriveApp.getFileById(master.getId())
-    .setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
 
   getUsers();
 }
