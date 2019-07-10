@@ -4,9 +4,9 @@ function getTickets(sheetURL, timeNow, OPid, Tid, audit) {
   var weekStart = new Date();
   weekStart.setDate(timeNow.getDate() - timeNow.getDay());
 
-  var OP = getAPIdata(zdUrl+"/api/v2/views/"+OPid+"/execute.json?per_page=600",zdAuth);
-  var T  = getAPIdata(zdUrl+"/api/v2/views/"+ Tid+"/execute.json?per_page=500",zdAuth);
-  var IT = getAPIdata(itUrl+"/api/link-report?groups=157%2C158%2C159%2C160%2C161%2C162%2C193%2C167&time_zone=America%2FNew_York&active_only=false&page=0&limit=1000&sort_by=link_creation_date&order=desc&filter_start_date="+weekStart.toISOString()+"&filter_end_date="+timeNow.toISOString()+"&active_date_range=Custom%20Range&status=DRAFT%2CINTERNAL%2CEXTERNAL",itAuth);
+  var OP = getAPIdata("get", zdUrl+"views/"+OPid+"/execute.json?per_page=600",zdAuth, null);
+  var T  = getAPIdata("get", zdUrl+"views/"+ Tid+"/execute.json?per_page=500",zdAuth, null);
+  var IT = getAPIdata("get", itUrl+"/api/link-report?groups=166%2C172&time_zone=America%2FNew_York&active_only=false&page=0&limit=1000&sort_by=link_creation_date&order=desc&filter_start_date="+weekStart.toISOString()+"&filter_end_date="+timeNow.toISOString()+"&active_date_range=Custom%20Range&status=DRAFT%2CINTERNAL%2CEXTERNAL",itAuth, null);
 
   timer.push(new Date());
 
@@ -32,7 +32,7 @@ function getTickets(sheetURL, timeNow, OPid, Tid, audit) {
   var auditHeader = ['Assignee', 'Ticket #', 'Status', 'Priority', 'Customer', 'Age', 'Last Response'];
   var highAged = [[auditHeader],[auditHeader],[auditHeader]];
 
-  var maxTicket = 0; var maxTicketLoc = []; var responseCountTotal = 0; var groupCt = 0;
+  var maxTicket = 0; var maxTicketLoc = []; var responseCountTotal = 0;
 
   for (var i1=0; i1<summary.length-1; i1++) {
     format[i1]   = ["","","","",format[i1][4],"","","","","","","",""];
@@ -42,7 +42,7 @@ function getTickets(sheetURL, timeNow, OPid, Tid, audit) {
     //PARSING TOTAL, OPEN, PENDING, RESPONSE, AGED30
     i2 = 0;
     while (i2 < OP.rows.length) {
-      if ((summary[i1][2] == OP.rows[i2].assignee_id) && (groups[groupCt] == OP.rows[i2].group_id)) {
+      if (summary[i1][2] == OP.rows[i2].assignee_id) {
         parse = OP.rows[i2];
         var status = parse.ticket.status;
         var priority = parse.ticket.priority;
@@ -126,7 +126,7 @@ function getTickets(sheetURL, timeNow, OPid, Tid, audit) {
     //PARSING SOLVED & TTR
     i2 = 0;
     while (i2 < T.rows.length) {
-      if ((summary[i1][2] == T.rows[i2].assignee_id) && (new Date(T.rows[i2].solved) >= weekStart) && (groups[groupCt] == T.rows[i2].group_id)) {
+      if ((summary[i1][2] == T.rows[i2].assignee_id) && (new Date(T.rows[i2].solved) >= weekStart)) {
         parse = T.rows[i2]; //Logger.log("Ticket ID: "+parse.ticket.id+" for "+parse.assignee_id);
 
         if (summary[i1][9] == 0) {
@@ -180,7 +180,6 @@ function getTickets(sheetURL, timeNow, OPid, Tid, audit) {
 
       maxTicket = 0;
       maxTicketLoc = [];
-      groupCt++;
     }
 
     //FORMATTING RESPONSE

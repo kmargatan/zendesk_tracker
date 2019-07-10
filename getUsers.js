@@ -10,8 +10,8 @@ function getUsers(sheetURL, timeNow, groups) {
   var row = 0; var i4 = 0; var list = []; var oooList = []; var userAdd = [];
 
   for (i1=0; i1<groups.length; i1++) {
-    var group = getAPIdata(zdUrl+"/api/v2/groups/"+groups[i1]+".json",zdAuth);
-    var users = getAPIdata(zdUrl+"/api/v2/groups/"+groups[i1]+"/memberships.json",zdAuth);
+    var group = getAPIdata("get", zdUrl+"groups/"+groups[i1]+".json",zdAuth,null);
+    var users = getAPIdata("get", zdUrl+"groups/"+groups[i1]+"/memberships.json",zdAuth,null);
 
     main.getRange(row+hborder,1,1,header.length).setBorder(true, false, false, false, false, false);
 
@@ -35,7 +35,7 @@ function getUsers(sheetURL, timeNow, groups) {
       }
 
       if (i3 == userList.length) {
-        var detail = getAPIdata(zdUrl+"/api/v2/users/"+users.group_memberships[i2].user_id+".json",zdAuth);
+        var detail = getAPIdata("get",zdUrl+"users/"+users.group_memberships[i2].user_id+".json",zdAuth,null);
         list[row][2] = detail.user.id;
         list[row][3] = detail.user.email;
         list[row][4] = detail.user.name;
@@ -58,5 +58,5 @@ function getUsers(sheetURL, timeNow, groups) {
   main.getRange(row+hborder,1,1,header.length).setBorder(true, false, false, false, false, false);
   main.getRange(hborder-1, 1, list.length, list[0].length).setValues(list);
 
-  getOOO(sheetURL, timeNow, oooList);
+  //getOOO(sheetURL, timeNow, oooList);
 }
