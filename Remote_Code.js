@@ -9,7 +9,7 @@
 //END DEPLOYMENTS INSTRUCTIONS
 
 //USER INPUT
-var sheetURL = "";
+var groupNames = "";
 var groups = [];
 var OPid   = ;
 var Tid    = ;
