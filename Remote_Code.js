@@ -1,4 +1,4 @@
-//DEPLOYMENTS INSTRUCTIONS
+//BEGIN DEPLOYMENTS INSTRUCTIONS
 //
 // 1. Open the menu "Resources > Libraries..."
 // 2. Paste "M35NCwg-AKxA72KdijLKHEmpjQGgMwfSZ" under Add a Library and select "Add"
@@ -8,8 +8,11 @@
 //
 //END DEPLOYMENTS INSTRUCTIONS
 
-//USER INPUT
+//BEGIN USER INPUT
+// 4a. Enter Group Names as apears exactly on Zendesk in String Array format & run function "preInit"
 var groupNames = "";
+
+// 4b. Open the menu "View > Logs" and paste the information on the Logs below
 var groups = [];
 var OPid   = ;
 var Tid    = ;
